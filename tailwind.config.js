@@ -8,7 +8,7 @@ export default {
         'vc-surface': 'var(--vc-surface)',
         'vc-elevated': 'var(--vc-elevated)',
         'vc-primary': 'var(--vc-primary)',
-        'vc-accent': 'var(--vc-accent)',
+        'vc-accent': '#ff3d00', // Changed from var(--vc-accent) to direct hex value
         'vc-border': 'var(--vc-border)',
         'vc-success': 'var(--vc-success)',
         'vc-warning': 'var(--vc-warning)',
