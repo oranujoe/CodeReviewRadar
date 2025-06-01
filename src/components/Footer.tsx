@@ -1,7 +1,11 @@
 import React from 'react';
 import { Code2, Twitter, Github, Linkedin } from 'lucide-react';
 
-const Footer = () => {
+interface FooterProps {
+  onLaunchApp: () => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onLaunchApp }) => {
   return (
     <footer className="bg-[--vc-bg] pt-16 pb-8 border-t-4 border-[--vc-border]">
       <div className="container">
@@ -72,7 +76,7 @@ const Footer = () => {
               placeholder="Enter your email" 
               className="flex-grow py-3 px-4 bg-[--vc-bg] border-4 border-[--vc-border] text-white focus:border-[--vc-primary] focus:outline-none"
             />
-            <button type="submit" className="btn-primary whitespace-nowrap">
+            <button onClick={(e) => { e.preventDefault(); onLaunchApp(); }} type="submit" className="btn-primary whitespace-nowrap">
               Launch App
             </button>
           </form>

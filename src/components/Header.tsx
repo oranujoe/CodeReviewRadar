@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Code2, Menu, X } from 'lucide-react';
 
-const Header = () => {
+interface HeaderProps {
+  onLaunchApp: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onLaunchApp }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -31,7 +35,7 @@ const Header = () => {
           <a href="#features" className="text-slate-300 hover:text-white font-medium">Features</a>
           <a href="#testimonials" className="text-slate-300 hover:text-white font-medium">Testimonials</a>
           <a href="#pricing" className="text-slate-300 hover:text-white font-medium">Pricing</a>
-          <button className="btn-primary">Launch App</button>
+          <button onClick={onLaunchApp} className="btn-primary">Launch App</button>
         </nav>
         
         {/* Mobile menu button */}
@@ -72,7 +76,7 @@ const Header = () => {
             >
               Pricing
             </a>
-            <button className="btn-primary mt-2">Launch App</button>
+            <button onClick={onLaunchApp} className="btn-primary mt-2">Launch App</button>
           </div>
         </div>
       )}
