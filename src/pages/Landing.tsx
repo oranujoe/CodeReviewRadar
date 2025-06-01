@@ -6,7 +6,7 @@ import Features from '../components/Features';
 import SocialProof from '../components/SocialProof';
 import Footer from '../components/Footer';
 
-function Landing() {
+export default function Landing() {
   const navigate = useNavigate();
 
   const handleLaunchApp = () => {
@@ -25,5 +25,3 @@ function Landing() {
     </div>
   );
 }
-
-export default Landing
