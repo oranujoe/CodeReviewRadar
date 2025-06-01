@@ -131,3 +131,9 @@
 .animate-fadeInUp {
   animation: fadeInUp 0.4s ease-out forwards;
 }
+
+@layer components {
+  .border-vc-border {
+    @apply border-[#333333];
+  }
+}
