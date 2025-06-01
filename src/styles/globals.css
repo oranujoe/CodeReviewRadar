@@ -3,8 +3,19 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --vc-bg: #121212;
+    --vc-surface: #1e1e1e;
+    --vc-primary: #6400ff;
+    --vc-accent: #ff3d00;
+    --vc-border: #333333;
+    --vc-success: #00c853;
+    --vc-warning: #ffd600;
+    --vc-error: #ff3d00;
+  }
+
   body {
-    @apply font-sans bg-vc-bg text-slate-50;
+    @apply font-sans bg-[--vc-bg] text-slate-50;
   }
 
   .container {
@@ -20,79 +31,106 @@
   }
 
   .neobrutalist-card {
-    @apply bg-vc-surface border-4 border-vc-border p-6 rounded-none 
+    @apply bg-[--vc-surface] border-4 border-[--vc-border] p-6 rounded-none 
            transform transition-all duration-300 hover:translate-y-[-4px] 
            hover:shadow-[8px_8px_0px_0px_rgba(255,61,0,0.8)];
   }
 
   .btn-primary {
-    @apply bg-vc-primary text-white font-bold py-3 px-6 border-4 border-black
+    @apply bg-[--vc-primary] text-white font-bold py-3 px-6 border-4 border-black
            uppercase tracking-wider transition-all duration-200
-           hover:bg-vc-accent hover:scale-[1.03] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.8)]
-           focus:outline-none focus:ring-2 focus:ring-vc-accent focus:ring-offset-2;
+           hover:bg-[--vc-accent] hover:scale-[1.03] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.8)]
+           focus:outline-none focus:ring-2 focus:ring-[--vc-accent] focus:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply bg-vc-surface text-white font-bold py-3 px-6 border-4 border-vc-border
+    @apply bg-[--vc-surface] text-white font-bold py-3 px-6 border-4 border-[--vc-border]
            uppercase tracking-wider transition-all duration-200
-           hover:bg-vc-bg hover:border-vc-primary hover:scale-[1.03]
-           focus:outline-none focus:ring-2 focus:ring-vc-primary focus:ring-offset-2;
+           hover:bg-[--vc-bg] hover:scale-[1.03] hover:border-[--vc-primary]
+           focus:outline-none focus:ring-2 focus:ring-[--vc-primary] focus:ring-offset-2;
   }
 
   .feature-icon {
-    @apply bg-vc-primary h-14 w-14 p-3 rounded-none border-2 border-black text-white;
+    @apply h-14 w-14 p-3 bg-[--vc-primary] rounded-none border-2 border-black text-white;
   }
 
-  .dashboard-search {
-    @apply bg-vc-bg w-full border-4 border-vc-border px-4 py-3 text-white
-           focus:outline-none focus:border-vc-accent transition-all duration-200;
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  .dashboard-table {
-    @apply w-full border-collapse;
+  .animate-fadeInUp {
+    animation: fadeInUp 0.4s ease-out forwards;
   }
 
-  .dashboard-table th {
-    @apply bg-vc-elevated text-left p-4 font-bold text-slate-50 border-b-4 border-vc-border
-           sticky top-0 z-10;
+  .stagger-delay-1 {
+    animation-delay: 0.1s;
   }
 
-  .dashboard-table td {
-    @apply p-4 border-b-4 border-vc-border text-slate-300;
+  .stagger-delay-2 {
+    animation-delay: 0.2s;
   }
 
-  .dashboard-table tr {
-    @apply transition-all duration-200 hover:bg-vc-elevated/40 hover:shadow-[0_0_0_1px_var(--vc-accent)];
+  .stagger-delay-3 {
+    animation-delay: 0.3s;
   }
 
-  .status-badge {
-    @apply px-3 py-1 font-medium inline-flex items-center gap-2 border-2;
+  .glitch-text {
+    @apply relative inline-block;
+    color: white;
   }
 
-  .status-badge.success {
-    @apply border-vc-success text-vc-success bg-vc-success/10;
+  .glitch-text::before,
+  .glitch-text::after {
+    content: 'AI';
+    @apply absolute top-0 left-0 w-full h-full opacity-0;
+    pointer-events: none;
+    mix-blend-mode: screen;
   }
 
-  .status-badge.warning {
-    @apply border-vc-warning text-vc-warning bg-vc-warning/10;
+  .glitch-text:hover::before,
+  .glitch-text:hover::after {
+    @apply opacity-100;
   }
 
-  .status-badge.error {
-    @apply border-vc-error text-vc-error bg-vc-error/10;
+  .glitch-text::before {
+    color: #ff0000;
+    animation: glitch-b 1.5s infinite;
+  }
+
+  .glitch-text::after {
+    color: #00ff00;
+    animation: glitch-a 2s infinite;
+  }
+
+  @keyframes glitch-a {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+
+  @keyframes glitch-b {
+    0% { transform: translate(0); }
+    20% { transform: translate(2px, -2px); }
+    40% { transform: translate(2px, 2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(-2px, 2px); }
+    100% { transform: translate(0); }
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+/* --- Add this block --- */
+@layer utilities {
+  .bg-vc-bg {
+    background-color: var(--vc-bg);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.4s ease-out forwards;
 }
