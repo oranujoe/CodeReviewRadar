@@ -1,7 +1,81 @@
-import React from 'react';
-import { Layout, BarChart3, GitPullRequest, Users, Settings, Bell } from 'lucide-react';
+import React, { useState } from 'react';
+import { Layout, Search, GitPullRequest, Users, Settings, Bell, AlertCircle, CheckCircle, Clock } from 'lucide-react';
 
 function Dashboard() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const pullRequests = [
+    {
+      id: 1,
+      title: "Add authentication flow",
+      author: "Sarah Chen",
+      repo: "frontend/main",
+      status: "needs-review",
+      risk: "medium",
+      time: "2h ago"
+    },
+    {
+      id: 2,
+      title: "Optimize database queries",
+      author: "Mike Johnson",
+      repo: "backend/core",
+      status: "approved",
+      risk: "low",
+      time: "3h ago"
+    },
+    {
+      id: 3,
+      title: "Update deployment scripts",
+      author: "Alex Kim",
+      repo: "devops/scripts",
+      status: "changes-requested",
+      risk: "high",
+      time: "5h ago"
+    }
+  ];
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'approved':
+        return (
+          <span className="status-badge success">
+            <CheckCircle className="h-4 w-4" />
+            Approved
+          </span>
+        );
+      case 'needs-review':
+        return (
+          <span className="status-badge warning">
+            <Clock className="h-4 w-4" />
+            Needs Review
+          </span>
+        );
+      case 'changes-requested':
+        return (
+          <span className="status-badge error">
+            <AlertCircle className="h-4 w-4" />
+            Changes Requested
+          </span>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const getRiskBadge = (risk: string) => {
+    const baseClasses = "px-3 py-1 text-sm font-medium border-2";
+    switch (risk) {
+      case 'low':
+        return <span className={`${baseClasses} border-[--vc-success] text-[--vc-success] bg-[--vc-success]/10`}>Low Risk</span>;
+      case 'medium':
+        return <span className={`${baseClasses} border-[--vc-warning] text-[--vc-warning] bg-[--vc-warning]/10`}>Medium Risk</span>;
+      case 'high':
+        return <span className={`${baseClasses} border-[--vc-error] text-[--vc-error] bg-[--vc-error]/10`}>High Risk</span>;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="flex h-screen bg-[--vc-bg]">
       {/* Sidebar */}
@@ -12,19 +86,15 @@ function Dashboard() {
         </div>
         
         <nav className="space-y-2">
-          <a href="#" className="flex items-center gap-3 text-white bg-[--vc-primary] p-3 rounded-lg">
-            <BarChart3 className="h-5 w-5" />
-            Overview
-          </a>
-          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-[--vc-bg] p-3 rounded-lg transition-colors">
+          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-[--vc-bg] p-3 rounded-none border-2 border-transparent hover:border-[--vc-accent] transition-all duration-200">
             <GitPullRequest className="h-5 w-5" />
             Pull Requests
           </a>
-          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-[--vc-bg] p-3 rounded-lg transition-colors">
+          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-[--vc-bg] p-3 rounded-none border-2 border-transparent hover:border-[--vc-accent] transition-all duration-200">
             <Users className="h-5 w-5" />
             Team
           </a>
-          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-[--vc-bg] p-3 rounded-lg transition-colors">
+          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-[--vc-bg] p-3 rounded-none border-2 border-transparent hover:border-[--vc-accent] transition-all duration-200">
             <Settings className="h-5 w-5" />
             Settings
           </a>
@@ -34,92 +104,63 @@ function Dashboard() {
       {/* Main content */}
       <main className="flex-1 overflow-auto">
         {/* Header */}
-        <header className="bg-[--vc-surface] border-b-4 border-[--vc-border] p-4">
+        <header className="bg-[--vc-surface] border-b-4 border-[--vc-border] p-4 sticky top-0 z-20">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Dashboard</h1>
+            <h1 className="text-2xl font-bold">Pull Requests</h1>
             <div className="flex items-center gap-4">
               <button className="relative p-2 text-slate-300 hover:text-white">
                 <Bell className="h-6 w-6" />
                 <span className="absolute top-0 right-0 h-3 w-3 bg-[--vc-accent] rounded-full"></span>
               </button>
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-[--vc-primary] flex items-center justify-center">
+                <div className="h-10 w-10 bg-[--vc-primary] border-2 border-black flex items-center justify-center">
                   <span className="font-semibold text-white">JD</span>
-                </div>
-                <div>
-                  <p className="font-medium">John Doe</p>
-                  <p className="text-sm text-slate-400">Admin</p>
                 </div>
               </div>
             </div>
           </div>
         </header>
 
-        {/* Dashboard content */}
+        {/* Search bar */}
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {/* Stats cards */}
-            {[
-              { title: 'Total Reviews', value: '2,451', change: '+12.5%' },
-              { title: 'Active PRs', value: '48', change: '-2.3%' },
-              { title: 'Review Time', value: '24m', change: '+3.7%' },
-              { title: 'Issues Found', value: '132', change: '-8.1%' }
-            ].map((stat, index) => (
-              <div key={index} className="bg-[--vc-surface] border-4 border-[--vc-border] p-6 rounded-lg">
-                <h3 className="text-slate-400 font-medium mb-2">{stat.title}</h3>
-                <div className="flex items-end gap-2">
-                  <p className="text-3xl font-bold">{stat.value}</p>
-                  <span className={`text-sm ${
-                    stat.change.startsWith('+') ? 'text-[--vc-success]' : 'text-[--vc-error]'
-                  }`}>
-                    {stat.change}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="relative mb-6">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+            <input
+              type="text"
+              placeholder="Search pull requests..."
+              className="dashboard-search pl-12"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
 
-          {/* Recent Activity */}
-          <div className="bg-[--vc-surface] border-4 border-[--vc-border] rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-6">Recent Activity</h2>
-            <div className="space-y-4">
-              {[
-                {
-                  title: 'Update user authentication flow',
-                  repo: 'frontend/main',
-                  risk: 'Low',
-                  time: '2h ago'
-                },
-                {
-                  title: 'Implement new API endpoints',
-                  repo: 'backend/api',
-                  risk: 'Medium',
-                  time: '4h ago'
-                },
-                {
-                  title: 'Fix responsive design issues',
-                  repo: 'frontend/ui',
-                  risk: 'Low',
-                  time: '6h ago'
-                }
-              ].map((activity, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-[--vc-bg] rounded-lg">
-                  <div>
-                    <h3 className="font-medium mb-1">{activity.title}</h3>
-                    <p className="text-sm text-slate-400">{activity.repo}</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <span className={`px-3 py-1 rounded-full text-sm ${
-                      activity.risk === 'Low' ? 'bg-[--vc-success]/20 text-[--vc-success]' :
-                      activity.risk === 'Medium' ? 'bg-[--vc-warning]/20 text-[--vc-warning]' :
-                      'bg-[--vc-error]/20 text-[--vc-error]'
-                    }`}>
-                      {activity.risk}
-                    </span>
-                    <span className="text-sm text-slate-400">{activity.time}</span>
-                  </div>
-                </div>
-              ))}
+          {/* Pull Requests Table */}
+          <div className="border-4 border-[--vc-border] bg-[--vc-surface] overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Repository</th>
+                    <th>Status</th>
+                    <th>Risk</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pullRequests.map((pr) => (
+                    <tr key={pr.id}>
+                      <td className="font-medium text-slate-50">{pr.title}</td>
+                      <td>{pr.author}</td>
+                      <td>{pr.repo}</td>
+                      <td>{getStatusBadge(pr.status)}</td>
+                      <td>{getRiskBadge(pr.risk)}</td>
+                      <td>{pr.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
