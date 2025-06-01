@@ -66,35 +66,35 @@ function Dashboard() {
     const baseClasses = "px-3 py-1 text-sm font-medium border-2";
     switch (risk) {
       case 'low':
-        return <span className={`${baseClasses} border-[--vc-success] text-[--vc-success] bg-[--vc-success]/10`}>Low Risk</span>;
+        return <span className={`${baseClasses} border-vc-success text-vc-success bg-vc-success/10`}>Low Risk</span>;
       case 'medium':
-        return <span className={`${baseClasses} border-[--vc-warning] text-[--vc-warning] bg-[--vc-warning]/10`}>Medium Risk</span>;
+        return <span className={`${baseClasses} border-vc-warning text-vc-warning bg-vc-warning/10`}>Medium Risk</span>;
       case 'high':
-        return <span className={`${baseClasses} border-[--vc-error] text-[--vc-error] bg-[--vc-error]/10`}>High Risk</span>;
+        return <span className={`${baseClasses} border-vc-error text-vc-error bg-vc-error/10`}>High Risk</span>;
       default:
         return null;
     }
   };
 
   return (
-    <div className="flex h-screen bg-[--vc-bg]">
+    <div className="flex h-screen bg-vc-bg">
       {/* Sidebar */}
-      <aside className="w-64 bg-[--vc-surface] border-r-4 border-[--vc-border] p-4">
+      <aside className="w-64 bg-vc-surface border-r-4 border-vc-border p-4">
         <div className="flex items-center gap-2 mb-8">
-          <Layout className="h-8 w-8 text-[--vc-primary]" />
+          <Layout className="h-8 w-8 text-vc-primary" />
           <span className="font-bold text-xl">VibeCode</span>
         </div>
         
         <nav className="space-y-2">
-          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-[--vc-bg] p-3 rounded-none border-2 border-transparent hover:border-[--vc-accent] transition-all duration-200">
+          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-vc-bg p-3 rounded-none border-2 border-transparent hover:border-vc-accent transition-all duration-200">
             <GitPullRequest className="h-5 w-5" />
             Pull Requests
           </a>
-          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-[--vc-bg] p-3 rounded-none border-2 border-transparent hover:border-[--vc-accent] transition-all duration-200">
+          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-vc-bg p-3 rounded-none border-2 border-transparent hover:border-vc-accent transition-all duration-200">
             <Users className="h-5 w-5" />
             Team
           </a>
-          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-[--vc-bg] p-3 rounded-none border-2 border-transparent hover:border-[--vc-accent] transition-all duration-200">
+          <a href="#" className="flex items-center gap-3 text-slate-300 hover:bg-vc-bg p-3 rounded-none border-2 border-transparent hover:border-vc-accent transition-all duration-200">
             <Settings className="h-5 w-5" />
             Settings
           </a>
@@ -104,16 +104,16 @@ function Dashboard() {
       {/* Main content */}
       <main className="flex-1 overflow-auto">
         {/* Header */}
-        <header className="bg-[--vc-surface] border-b-4 border-[--vc-border] p-4 sticky top-0 z-20">
+        <header className="bg-vc-surface border-b-4 border-vc-border p-4 sticky top-0 z-20">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold">Pull Requests</h1>
             <div className="flex items-center gap-4">
               <button className="relative p-2 text-slate-300 hover:text-white">
                 <Bell className="h-6 w-6" />
-                <span className="absolute top-0 right-0 h-3 w-3 bg-[--vc-accent] rounded-full"></span>
+                <span className="absolute top-0 right-0 h-3 w-3 bg-vc-accent rounded-full"></span>
               </button>
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 bg-[--vc-primary] border-2 border-black flex items-center justify-center">
+                <div className="h-10 w-10 bg-vc-primary border-2 border-black flex items-center justify-center">
                   <span className="font-semibold text-white">JD</span>
                 </div>
               </div>
@@ -135,7 +135,7 @@ function Dashboard() {
           </div>
 
           {/* Pull Requests Table */}
-          <div className="border-4 border-[--vc-border] bg-[--vc-surface] overflow-hidden">
+          <div className="border-4 border-vc-border bg-vc-surface overflow-hidden">
             <div className="overflow-x-auto">
               <table className="dashboard-table">
                 <thead>

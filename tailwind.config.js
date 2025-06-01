@@ -4,15 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        'vc-bg': 'var(--vc-bg)',
-        'vc-surface': 'var(--vc-surface)',
-        'vc-elevated': 'var(--vc-elevated)',
-        'vc-primary': 'var(--vc-primary)',
-        'vc-accent': '#ff3d00', // Changed from var(--vc-accent) to direct hex value
-        'vc-border': 'var(--vc-border)',
-        'vc-success': 'var(--vc-success)',
-        'vc-warning': 'var(--vc-warning)',
-        'vc-error': 'var(--vc-error)'
+        'vc-bg': '#121212',
+        'vc-surface': '#1e1e1e',
+        'vc-elevated': '#2a2a2a',
+        'vc-primary': '#6400ff',
+        'vc-accent': '#ff3d00',
+        'vc-border': '#333333',
+        'vc-success': '#00c853',
+        'vc-warning': '#ffd600',
+        'vc-error': '#ff3d00'
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
