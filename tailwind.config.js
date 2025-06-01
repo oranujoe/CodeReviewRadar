@@ -3,6 +3,17 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      colors: {
+        'vc-bg': 'var(--vc-bg)',
+        'vc-surface': 'var(--vc-surface)',
+        'vc-elevated': 'var(--vc-elevated)',
+        'vc-primary': 'var(--vc-primary)',
+        'vc-accent': 'var(--vc-accent)',
+        'vc-border': 'var(--vc-border)',
+        'vc-success': 'var(--vc-success)',
+        'vc-warning': 'var(--vc-warning)',
+        'vc-error': 'var(--vc-error)'
+      },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },
