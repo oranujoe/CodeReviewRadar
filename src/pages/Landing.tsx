@@ -14,7 +14,7 @@ export default function Landing() {
   };
 
   return (
-    <div className="app bg-[--vc-bg] min-h-screen">
+    <div className="app bg-vc-bg min-h-screen">
       <Header onLaunchApp={handleLaunchApp} />
       <main>
         <Hero onLaunchApp={handleLaunchApp} />

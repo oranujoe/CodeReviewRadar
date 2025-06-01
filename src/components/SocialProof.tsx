@@ -11,11 +11,11 @@ const SocialProof = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-12 bg-[--vc-surface] border-y-4 border-[--vc-border]">
+    <section id="testimonials" className="py-12 bg-vc-surface border-y-4 border-vc-border">
       <div className="container">
         <div className="text-center mb-8">
           <p className="text-lg font-medium uppercase tracking-wider text-slate-300">
-            Trusted by <span className="text-[--vc-primary] font-bold">50+</span> Open Source Projects
+            Trusted by <span className="text-vc-primary font-bold">50+</span> Open Source Projects
           </p>
         </div>
         
@@ -25,7 +25,7 @@ const SocialProof = () => {
               key={index} 
               className={`${company.width} h-12 flex items-center justify-center transition-opacity duration-150 hover:opacity-100 opacity-80`}
             >
-              <div className="bg-[--vc-bg] border-2 border-[--vc-border] p-2 h-full w-full flex items-center justify-center">
+              <div className="bg-vc-bg border-2 border-vc-border p-2 h-full w-full flex items-center justify-center">
                 <span className="text-slate-300 font-bold text-sm uppercase tracking-wider">{company.name}</span>
               </div>
             </div>
