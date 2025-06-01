@@ -16,7 +16,8 @@
   }
 
   body {
-    @apply font-sans bg-vc-bg text-slate-50;
+    @apply font-sans text-slate-50;
+    background-color: var(--vc-bg);
   }
 
   .container {
@@ -32,31 +33,45 @@
   }
 
   .neobrutalist-card {
-    @apply bg-vc-surface border-4 border-vc-border p-6 rounded-none 
+    background-color: var(--vc-surface);
+    @apply border-4 border-vc-border p-6 rounded-none 
            transform transition-all duration-300 hover:translate-y-[-4px] 
            hover:shadow-[8px_8px_0px_0px_rgba(255,61,0,0.8)];
   }
 
   .btn-primary {
-    @apply bg-vc-primary text-white font-bold py-3 px-6 border-4 border-black
+    background-color: var(--vc-primary);
+    @apply text-white font-bold py-3 px-6 border-4 border-black
            uppercase tracking-wider transition-all duration-200
-           hover:bg-vc-accent hover:scale-[1.03] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.8)]
+           hover:scale-[1.03] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.8)]
            focus:outline-none focus:ring-2 focus:ring-vc-accent focus:ring-offset-2;
   }
 
+  .btn-primary:hover {
+    background-color: var(--vc-accent);
+  }
+
   .btn-secondary {
-    @apply bg-vc-surface text-white font-bold py-3 px-6 border-4 border-vc-border
+    background-color: var(--vc-surface);
+    @apply text-white font-bold py-3 px-6 border-4 border-vc-border
            uppercase tracking-wider transition-all duration-200
-           hover:bg-vc-bg hover:scale-[1.03] hover:border-vc-primary
+           hover:scale-[1.03]
            focus:outline-none focus:ring-2 focus:ring-vc-primary focus:ring-offset-2;
   }
 
+  .btn-secondary:hover {
+    background-color: var(--vc-bg);
+    border-color: var(--vc-primary);
+  }
+
   .feature-icon {
-    @apply h-14 w-14 p-3 bg-vc-primary rounded-none border-2 border-black text-white;
+    background-color: var(--vc-primary);
+    @apply h-14 w-14 p-3 rounded-none border-2 border-black text-white;
   }
 
   .dashboard-search {
-    @apply w-full bg-vc-bg border-4 border-vc-border px-4 py-3 text-white
+    background-color: var(--vc-bg);
+    @apply w-full border-4 border-vc-border px-4 py-3 text-white
            focus:outline-none focus:border-vc-accent transition-all duration-200;
   }
 
@@ -65,7 +80,8 @@
   }
 
   .dashboard-table th {
-    @apply bg-vc-elevated text-left p-4 font-bold text-slate-50 border-b-4 border-vc-border
+    background-color: var(--vc-elevated);
+    @apply text-left p-4 font-bold text-slate-50 border-b-4 border-vc-border
            sticky top-0 z-10;
   }
 
@@ -74,8 +90,11 @@
   }
 
   .dashboard-table tr {
-    @apply transition-all duration-200 hover:bg-vc-elevated/40
-           hover:shadow-[0_0_0_1px_var(--vc-accent)];
+    @apply transition-all duration-200 hover:shadow-[0_0_0_1px_var(--vc-accent)];
+  }
+
+  .dashboard-table tr:hover {
+    background-color: rgba(42, 42, 42, 0.4);
   }
 
   .status-badge {
@@ -83,15 +102,18 @@
   }
 
   .status-badge.success {
-    @apply border-vc-success text-vc-success bg-vc-success/10;
+    @apply border-vc-success text-vc-success;
+    background-color: rgba(0, 200, 83, 0.1);
   }
 
   .status-badge.warning {
-    @apply border-vc-warning text-vc-warning bg-vc-warning/10;
+    @apply border-vc-warning text-vc-warning;
+    background-color: rgba(255, 214, 0, 0.1);
   }
 
   .status-badge.error {
-    @apply border-vc-error text-vc-error bg-vc-error/10;
+    @apply border-vc-error text-vc-error;
+    background-color: rgba(255, 61, 0, 0.1);
   }
 }
 
