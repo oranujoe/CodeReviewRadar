@@ -12,28 +12,23 @@ const initialPRs = [
 ];
 
 const DashboardList = () => {
-  // State to manage PRs, e.g., for filtering or if fetched from an API
   const [pullRequests, setPullRequests] = useState(initialPRs);
-  // const [pullRequests, setPullRequests] = useState([]); // To test empty state
 
-  // CSS variables and custom styles
-  // In a real app, these variables would likely be in a global CSS file.
   const neobrutalistStyles = `
     :root {
-      --vc-bg: #111827; /* Tailwind gray-900 */
-      --vc-surface: #1f2937; /* Tailwind gray-800 */
-      --vc-elevated: #374151; /* Tailwind gray-700 */
-      --vc-border: #000000; /* Black for stark Neobrutalist borders */
-      --vc-accent: #3b82f6; /* Tailwind blue-500 */
-      --vc-primary: #2563eb; /* Tailwind blue-600 */
-      --vc-text-primary: #f9fafb; /* Tailwind gray-50 */
-      --vc-text-secondary: #d1d5db; /* Tailwind gray-300 */
-      --vc-text-placeholder: #6b7280; /* Tailwind gray-500 */
+      --vc-bg: #111827;
+      --vc-surface: #1f2937;
+      --vc-elevated: #374151;
+      --vc-border: #000000;
+      --vc-accent: #3b82f6;
+      --vc-primary: #2563eb;
+      --vc-text-primary: #f9fafb;
+      --vc-text-secondary: #d1d5db;
+      --vc-text-placeholder: #6b7280;
     }
     .shadow-vc-card {
       box-shadow: 4px 4px 0px 0px var(--vc-border);
     }
-    /* Ensure Tailwind can pick up these variables */
     .bg-\\[--vc-bg\\] { background-color: var(--vc-bg); }
     .bg-\\[--vc-surface\\] { background-color: var(--vc-surface); }
     .bg-\\[--vc-elevated\\] { background-color: var(--vc-elevated); }
@@ -43,12 +38,11 @@ const DashboardList = () => {
     .border-\\[--vc-border\\] { border-color: var(--vc-border); }
     .focus\\:outline-\\[--vc-accent\\]:focus { outline-color: var(--vc-accent); }
     .hover\\:shadow-\\[0_0_0_1px_var\\(--vc-accent\\)\\]:hover {
-        box-shadow: 0 0 0 1px var(--vc-accent), 4px 4px 0px 0px var(--vc-border); /* Keep original shadow */
+        box-shadow: 0 0 0 1px var(--vc-accent), 4px 4px 0px 0px var(--vc-border);
     }
-     .bg-\\[--vc-primary\\] { background-color: var(--vc-primary); }
+    .bg-\\[--vc-primary\\] { background-color: var(--vc-primary); }
     .hover\\:bg-\\[--vc-accent\\]:hover { background-color: var(--vc-accent); }
 
-    /* Custom scrollbar for webkit browsers */
     .custom-scrollbar::-webkit-scrollbar {
       width: 8px;
       height: 8px;
@@ -71,13 +65,11 @@ const DashboardList = () => {
     <>
       <style>{neobrutalistStyles}</style>
       <div className="min-h-screen bg-[--vc-bg] p-4 sm:p-8 font-['Inter',_sans-serif] text-[--vc-text-primary]">
-        {/* Header Section - Can be expanded with more controls or branding */}
         <header className="mb-6">
             <h1 className="text-2xl sm:text-3xl font-bold text-[--vc-text-primary] mb-2">VibeCodeReview Radar</h1>
             <p className="text-[--vc-text-secondary] text-sm sm:text-base">Active Pull Requests Overview</p>
         </header>
 
-        {/* Search Bar */}
         <input
           type="text"
           placeholder="Search PRs by title, author, or status…"
@@ -94,13 +86,12 @@ const DashboardList = () => {
         />
 
         {pullRequests.length > 0 ? (
-          // PR List Card
           <div className="
             bg-[--vc-surface]
             border border-[--vc-border]
             rounded-2xl shadow-vc-card
           ">
-            <div className="overflow-x-auto custom-scrollbar"> {/* Wrapper for horizontal scroll */}
+            <div className="overflow-x-auto custom-scrollbar">
               <table className="w-full min-w-[700px]">
                 <thead className="border-b border-[--vc-border]">
                   <tr className="
@@ -116,17 +107,16 @@ const DashboardList = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[--vc-border]">
-                  {pullRequests.map((pr) => (
-                    <tr key={pr.id} className="
+                  {pullRequests.map((pr, index) => (
+                    <tr key={pr.id} className={`
+                      ${index % 2 === 0 ? 'bg-[--vc-surface]' : 'bg-[--vc-elevated]/20'}
                       hover:bg-[--vc-elevated]/40
                       hover:shadow-[0_0_0_1px_var(--vc-accent)]
                       transition-all duration-200 ease-out
-                    ">
-                      {/* Title Cell */}
+                    `}>
                       <td className="py-3 px-4 align-middle text-sm md:text-base">
                         <span className="font-medium text-[--vc-text-primary]">{pr.title}</span>
                       </td>
-                      {/* Author Cell */}
                       <td className="py-3 px-4 align-middle text-sm md:text-base">
                         <div className="flex items-center gap-2">
                           <img 
@@ -138,7 +128,6 @@ const DashboardList = () => {
                           <span className="text-[--vc-text-secondary] capitalize">{pr.author}</span>
                         </div>
                       </td>
-                      {/* Risk Badge Cell */}
                       <td className="py-3 px-4 align-middle">
                         {pr.riskScore <= 3 && (
                           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">
@@ -156,7 +145,6 @@ const DashboardList = () => {
                           </span>
                         )}
                       </td>
-                      {/* Status Chip Cell */}
                       <td className="py-3 px-4 align-middle">
                         <span className={`inline-block rounded-full px-3 py-1 text-xs font-medium
                           ${pr.status === 'Open' ? 'bg-sky-700/50 text-sky-200 border border-sky-600/70' : ''}
@@ -169,7 +157,6 @@ const DashboardList = () => {
                           {pr.status}
                         </span>
                       </td>
-                      {/* Actions Cell */}
                       <td className="py-3 px-4 align-middle">
                         <button className="
                             bg-[--vc-elevated] hover:bg-[--vc-accent]
@@ -191,10 +178,9 @@ const DashboardList = () => {
             </div>
           </div>
         ) : (
-          // Empty State Card
           <div className="
             flex flex-col items-center justify-center
-            h-[calc(100vh-250px)] min-h-[384px] /* Adjusted height */
+            h-[calc(100vh-250px)] min-h-[384px]
             bg-[--vc-surface]
             border border-[--vc-border]
             rounded-2xl shadow-vc-card
@@ -215,10 +201,10 @@ const DashboardList = () => {
             <button className="
               bg-[--vc-primary] hover:bg-[--vc-accent]
               text-white font-semibold
-              py-2.5 px-6 /* Slightly larger padding */
-              rounded-lg /* Consistent with input rounding */
-              border border-[--vc-border] /* Added border */
-              shadow-vc-card /* Added neobrutalist shadow */
+              py-2.5 px-6
+              rounded-lg
+              border border-[--vc-border]
+              shadow-vc-card
               transition-all duration-200 ease-out
               hover:scale-[1.03]
               focus:outline-2 focus:outline-offset-2 focus:outline-[--vc-accent]
