@@ -11,6 +11,27 @@ const initialPRs = [
   { id: 7, title: 'Develop PoC for real-time collaboration feature', author: 'drew', avatarUrl: 'https://placehold.co/32x32/581C87/FFFFFF?text=D', riskScore: 8, status: 'Blocked' },
 ];
 
+// SVG Icon Components (Inline)
+const CheckCircleIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={className}>
+    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+  </svg>
+);
+
+const FireIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={className}>
+    <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.267M10 3.553c-.34-.16-.72-.249-1.125-.249A3.362 3.362 0 005.5 4.57M10 18.354A3.362 3.362 0 0013.375 15a3.362 3.362 0 003.375-3.375c0-.172-.03-.34-.086-.5A4.507 4.507 0 0018 10.5c.002-.484-.182-.962-.474-1.325A4.507 4.507 0 0014.914 6c-.484-.002-.962.182-1.325.474A4.507 4.507 0 0010.5 9.086c-.172.03-.34.086-.5.086A3.362 3.362 0 006.625 12 3.362 3.362 0 0010 15.375c.172.03.34.086.5.086A3.362 3.362 0 0013.375 12a3.362 3.362 0 003.375-3.375M10 11.125a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z" clipRule="evenodd" />
+    <path d="M10 .5C4.75.5.5 4.75.5 10S4.75 19.5 10 19.5 19.5 15.25 19.5 10 .5M10 3.553c-.34-.16-.72-.249-1.125-.249A3.362 3.362 0 005.5 4.57M10 18.354A3.362 3.362 0 0013.375 15a3.362 3.362 0 003.375-3.375c0-.172-.03-.34-.086-.5A4.507 4.507 0 0018 10.5c.002-.484-.182-.962-.474-1.325A4.507 4.507 0 0014.914 6c-.484-.002-.962.182-1.325.474A4.507 4.507 0 0010.5 9.086c-.172.03-.34.086-.5.086A3.362 3.362 0 006.625 12 3.362 3.362 0 0010 15.375c.172.03.34.086.5.086A3.362 3.362 0 0013.375 12a3.362 3.362 0 003.375-3.375" />
+  </svg>
+);
+
+const AlertCircleIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={className}>
+    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+  </svg>
+);
+
+
 // Simple Modal Component
 const Modal = ({ isOpen, onClose, title, children, isLoading }) => {
   if (!isOpen) return null;
@@ -201,7 +222,6 @@ const DashboardList = () => {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-stars" viewBox="0 0 16 16">
                               <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.3l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.3A1.73 1.73 0 0 0 2.31 4.207l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
                             </svg>
-                             {/* ✨ */}
                           </button>
                         </div>
                       </td>
@@ -211,10 +231,23 @@ const DashboardList = () => {
                           <span className="text-[--vc-text-secondary] capitalize">{pr.author}</span>
                         </div>
                       </td>
+                      {/* Updated Risk Badge Cell */}
                       <td className="py-3 px-4 align-middle">
-                        {pr.riskScore <= 3 && (<span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">🎯 Low</span>)}
-                        {pr.riskScore >= 4 && pr.riskScore <= 6 && (<span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-amber-500/20 text-amber-300 border border-amber-500/50">🔥 Medium</span>)}
-                        {pr.riskScore >= 7 && (<span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-rose-500/20 text-rose-300 border border-rose-500/50">💀 High</span>)}
+                        {pr.riskScore <= 3 && (
+                          <span className="inline-flex items-center gap-1 bg-emerald-600/20 text-emerald-300 px-2 py-0.5 rounded-md text-xs font-medium border border-emerald-500/50">
+                            <CheckCircleIcon className="h-4 w-4" /> Low
+                          </span>
+                        )}
+                        {pr.riskScore >= 4 && pr.riskScore <= 6 && (
+                          <span className="inline-flex items-center gap-1 bg-amber-600/20 text-amber-300 px-2 py-0.5 rounded-md text-xs font-medium border border-amber-500/50">
+                            <FireIcon className="h-4 w-4" /> Medium
+                          </span>
+                        )}
+                        {pr.riskScore >= 7 && (
+                          <span className="inline-flex items-center gap-1 bg-rose-600/20 text-rose-300 px-2 py-0.5 rounded-md text-xs font-medium border border-rose-500/50">
+                            <AlertCircleIcon className="h-4 w-4" /> High
+                          </span>
+                        )}
                       </td>
                       <td className="py-3 px-4 align-middle">
                         <span className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${pr.status === 'Open' ? 'bg-sky-700/50 text-sky-200 border border-sky-600/70' : ''} ${pr.status === 'In Review' ? 'bg-indigo-700/50 text-indigo-200 border border-indigo-600/70' : ''} ${pr.status === 'Merged' ? 'bg-purple-700/50 text-purple-200 border border-purple-600/70' : ''} ${pr.status === 'Draft' ? 'bg-slate-600/50 text-slate-300 border border-slate-500/70' : ''} ${pr.status === 'Blocked' ? 'bg-red-700/50 text-red-200 border border-red-600/70' : ''} ${!['Open', 'In Review', 'Merged', 'Draft', 'Blocked'].includes(pr.status) ? 'bg-gray-700/50 text-gray-200 border border-gray-600/70' : ''}`}>
