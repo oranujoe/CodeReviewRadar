@@ -110,7 +110,11 @@ const DashboardList = () => {
   `;
 
   const callGeminiAPI = async (prompt) => {
-    const apiKey = ""; // No API key needed for gemini-2.0-flash
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("Gemini API key is not configured. Please add VITE_GEMINI_API_KEY to your .env file.");
+    }
+    
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
     
     const payload = {
