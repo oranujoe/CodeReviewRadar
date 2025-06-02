@@ -205,7 +205,7 @@ const DashboardList = () => {
               <table className="w-full min-w-[700px]">
                 <thead className="border-b border-[--vc-border]">
                   <tr className="bg-[--vc-elevated]/50 text-[--vc-text-secondary] uppercase text-xs font-semibold sticky top-0 z-10">
-                    <th scope="col" className="py-3 px-4 text-left">Title</th>
+                    <th scope="col\" className="py-3 px-4 text-left">Title</th>
                     <th scope="col" className="py-3 px-4 text-left">Author</th>
                     <th scope="col" className="py-3 px-4 text-left">Risk</th>
                     <th scope="col" className="py-3 px-4 text-left">Status</th>
