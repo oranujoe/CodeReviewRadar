@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
-const Hero = () => {
+interface HeroProps {
+  onLaunchApp: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onLaunchApp }) => {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subheadingRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -44,7 +48,7 @@ const Hero = () => {
           </p>
           
           <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="btn-primary flex items-center justify-center gap-2">
+            <button onClick={onLaunchApp} className="btn-primary flex items-center justify-center gap-2">
               Launch App
               <ArrowRight className="h-5 w-5" />
             </button>

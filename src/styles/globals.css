@@ -127,3 +127,10 @@
     100% { transform: translate(0); }
   }
 }
+
+/* --- Add this block --- */
+@layer utilities {
+  .bg-vc-bg {
+    background-color: var(--vc-bg);
+  }
+}
