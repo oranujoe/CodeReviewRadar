@@ -22,6 +22,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-VITE_SUPABASE_URL=https://supabase.com/dashboard/project/wrtaeowkypmtvtthkboq
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndydGFlb3dreXBtdHZ0dGhrYm9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkyMDExNDYsImV4cCI6MjA2NDc3NzE0Nn0.sMyoPJiCNBBFNMTUDkz4Yj5Q_A9Xs1lAKp_G8hrt7B4
 .env
