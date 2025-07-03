@@ -17,6 +17,36 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
   
   const { signUp, signIn } = useAuth();
 
+  const extractErrorMessage = (err: any): string => {
+    // Check if it's a Supabase error with a body property
+    if (err?.body) {
+      try {
+        const parsedBody = typeof err.body === 'string' ? JSON.parse(err.body) : err.body;
+        if (parsedBody?.message) {
+          return parsedBody.message;
+        }
+      } catch (parseError) {
+        // If parsing fails, fall back to the original body if it's a string
+        if (typeof err.body === 'string') {
+          return err.body;
+        }
+      }
+    }
+    
+    // Check for standard error message
+    if (err?.message) {
+      return err.message;
+    }
+    
+    // Check if it's an Error instance
+    if (err instanceof Error) {
+      return err.message;
+    }
+    
+    // Fallback to generic message
+    return 'An error occurred';
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -31,7 +61,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
       onSuccess();
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(extractErrorMessage(err));
     } finally {
       setLoading(false);
     }
