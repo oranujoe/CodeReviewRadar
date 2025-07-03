@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Mail, Lock, User, AlertCircle } from 'lucide-react';
+import { X, Mail, Lock, User, AlertCircle, Github } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface AuthModalProps {
@@ -13,9 +13,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [githubLoading, setGithubLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const { signUp, signIn } = useAuth();
+  const { signUp, signIn, signInWithGitHub } = useAuth();
 
   const extractErrorMessage = (err: any): string => {
     // Check if it's a Supabase error with a body property
@@ -67,11 +68,25 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
     }
   };
 
+  const handleGitHubSignIn = async () => {
+    setGithubLoading(true);
+    setError('');
+
+    try {
+      await signInWithGitHub();
+      // Note: The redirect will happen automatically, so we don't call onSuccess here
+    } catch (err) {
+      setError(extractErrorMessage(err));
+      setGithubLoading(false);
+    }
+  };
+
   const resetForm = () => {
     setEmail('');
     setPassword('');
     setError('');
     setLoading(false);
+    setGithubLoading(false);
   };
 
   const handleClose = () => {
@@ -116,6 +131,32 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
           </div>
         )}
 
+        {/* GitHub Sign In Button */}
+        <button
+          onClick={handleGitHubSignIn}
+          disabled={githubLoading || loading}
+          className="w-full mb-6 bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 border-2 border-gray-600 uppercase tracking-wider transition-all duration-200 hover:scale-[1.02] hover:shadow-[4px_4px_0px_0px_rgba(75,85,99,0.8)] focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {githubLoading ? (
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+          ) : (
+            <>
+              <Github className="h-5 w-5" />
+              Continue with GitHub
+            </>
+          )}
+        </button>
+
+        {/* Divider */}
+        <div className="relative mb-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t-2 border-[--vc-border]"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-[--vc-surface] text-slate-400 uppercase tracking-wider">Or continue with email</span>
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
@@ -156,7 +197,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || githubLoading}
             className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
