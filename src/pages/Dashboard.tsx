@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Stars } from 'lucide-react';
+import { Stars, LogOut, RefreshCw } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { usePullRequests } from '../hooks/usePullRequests';
 import Modal from '../components/dashboard/Modal';
 import RiskBadge from '../components/dashboard/RiskBadge';
 import StatusBadge from '../components/dashboard/StatusBadge';
@@ -7,34 +9,14 @@ import EmptyState from '../components/dashboard/EmptyState';
 import { callGeminiAPI } from '../services/gemini';
 import { neobrutalistStyles } from '../styles/dashboard';
 
-// Types
-interface PullRequest {
-  id: number;
-  title: string;
-  author: string;
-  avatarUrl: string;
-  riskScore: number;
-  status: string;
-}
-
 interface ActivePRDetails {
-  id: number | null;
+  id: string | null;
   title: string;
 }
-
-// Initial data
-const initialPRs: PullRequest[] = [
-  { id: 1, title: 'Fix critical login vulnerability and add MFA support', author: 'vera', avatarUrl: 'https://placehold.co/32x32/7C3AED/FFFFFF?text=V', riskScore: 2, status: 'Open' },
-  { id: 2, title: 'Implement new Dark Mode theme across all user-facing components', author: 'alex', avatarUrl: 'https://placehold.co/32x32/DB2777/FFFFFF?text=A', riskScore: 5, status: 'In Review' },
-  { id: 3, title: 'Update core dependencies to latest versions (React 19, Node 22)', author: 'sam', avatarUrl: 'https://placehold.co/32x32/16A34A/FFFFFF?text=S', riskScore: 7, status: 'Open' },
-  { id: 4, title: 'Refactor global navigation bar for improved accessibility and performance', author: 'jamie', avatarUrl: 'https://placehold.co/32x32/EA580C/FFFFFF?text=J', riskScore: 3, status: 'Merged' },
-  { id: 5, title: 'Enhance back-end error logging and reporting mechanisms with Sentry integration', author: 'morgan', avatarUrl: 'https://placehold.co/32x32/0284C7/FFFFFF?text=M', riskScore: 6, status: 'Draft' },
-  { id: 6, title: 'Optimize database queries for user profile loading', author: 'casey', avatarUrl: 'https://placehold.co/32x32/E11D48/FFFFFF?text=C', riskScore: 4, status: 'In Review' },
-  { id: 7, title: 'Develop PoC for real-time collaboration feature', author: 'drew', avatarUrl: 'https://placehold.co/32x32/581C87/FFFFFF?text=D', riskScore: 8, status: 'Blocked' },
-];
 
 const Dashboard = () => {
-  const [pullRequests] = useState<PullRequest[]>(initialPRs);
+  const { user, signOut } = useAuth();
+  const { pullRequests, loading, error, refreshPullRequests } = usePullRequests();
   const [activePRDetails, setActivePRDetails] = useState<ActivePRDetails>({ id: null, title: '' });
   
   // Modal states
@@ -47,7 +29,15 @@ const Dashboard = () => {
   const [summaryError, setSummaryError] = useState('');
   const [tasksError, setTasksError] = useState('');
 
-  const handleSummarizePR = async (prId: number, prTitle: string) => {
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  const handleSummarizePR = async (prId: string, prTitle: string) => {
     setActivePRDetails({ id: prId, title: prTitle });
     setShowSummaryModal(true);
     setIsSummaryLoading(true);
@@ -66,7 +56,7 @@ const Dashboard = () => {
     }
   };
 
-  const handleSuggestReviewTasks = async (prId: number, prTitle: string) => {
+  const handleSuggestReviewTasks = async (prId: string, prTitle: string) => {
     setActivePRDetails({ id: prId, title: prTitle });
     setShowTasksModal(true);
     setIsTasksLoading(true);
@@ -85,18 +75,58 @@ const Dashboard = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <>
+        <style>{neobrutalistStyles}</style>
+        <div className="min-h-screen bg-[--vc-bg] flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[--vc-primary] mx-auto mb-4"></div>
+            <p className="text-slate-300">Loading your pull requests...</p>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <style>{neobrutalistStyles}</style>
       <div className="min-h-screen bg-[--vc-bg] p-4 sm:p-8 font-['Inter',_sans-serif] text-[--vc-text-primary]">
-        <header className="mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[--vc-text-primary] mb-2">
-            VibeCodeReview Radar
-          </h1>
-          <p className="text-[--vc-text-secondary] text-sm sm:text-base">
-            Active Pull Requests Overview
-          </p>
+        <header className="mb-6 flex justify-between items-start">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-[--vc-text-primary] mb-2">
+              VibeCodeReview Radar
+            </h1>
+            <p className="text-[--vc-text-secondary] text-sm sm:text-base">
+              Welcome back, {user?.email}
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={refreshPullRequests}
+              className="flex items-center gap-2 bg-[--vc-elevated] hover:bg-[--vc-accent] text-[--vc-text-secondary] hover:text-[--vc-text-primary] font-medium text-sm py-2 px-4 rounded-md border border-[--vc-border] transition-all duration-200 ease-out focus:outline-2 focus:outline-offset-1 focus:outline-[--vc-accent]"
+              title="Refresh pull requests"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Refresh
+            </button>
+            <button
+              onClick={handleSignOut}
+              className="flex items-center gap-2 bg-red-600/20 hover:bg-red-600/30 text-red-300 hover:text-red-200 font-medium text-sm py-2 px-4 rounded-md border border-red-500/50 transition-all duration-200 ease-out focus:outline-2 focus:outline-offset-1 focus:outline-red-500"
+              title="Sign out"
+            >
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </button>
+          </div>
         </header>
+
+        {error && (
+          <div className="mb-6 p-4 bg-red-900/50 border-2 border-red-500 rounded-none">
+            <p className="text-red-200">{error}</p>
+          </div>
+        )}
 
         <input
           type="text"
@@ -110,7 +140,7 @@ const Dashboard = () => {
               <table className="w-full min-w-[700px]">
                 <thead className="border-b border-[--vc-border]">
                   <tr className="bg-[--vc-elevated]/50 text-[--vc-text-secondary] uppercase text-xs font-semibold sticky top-0 z-10">
-                    <th scope="col\" className="py-3 px-4 text-left">Title</th>
+                    <th scope="col" className="py-3 px-4 text-left">Title</th>
                     <th scope="col" className="py-3 px-4 text-left">Author</th>
                     <th scope="col" className="py-3 px-4 text-left">Risk</th>
                     <th scope="col" className="py-3 px-4 text-left">Status</th>
@@ -135,25 +165,32 @@ const Dashboard = () => {
                       <td className="py-3 px-4 align-middle text-sm md:text-base">
                         <div className="flex items-center gap-2">
                           <img 
-                            src={pr.avatarUrl} 
-                            alt={`${pr.author}'s avatar`} 
+                            src={pr.author_avatar_url || `https://placehold.co/32x32/4B5563/FFFFFF?text=${pr.author_github_username.charAt(0).toUpperCase()}`} 
+                            alt={`${pr.author_github_username}'s avatar`} 
                             className="h-8 w-8 rounded-full border-2 border-[--vc-elevated]" 
-                            onError={(e) => { e.currentTarget.src="https://placehold.co/32x32/4B5563/FFFFFF?text=ERR"; }} 
+                            onError={(e) => { e.currentTarget.src=`https://placehold.co/32x32/4B5563/FFFFFF?text=${pr.author_github_username.charAt(0).toUpperCase()}`; }} 
                           />
-                          <span className="text-[--vc-text-secondary] capitalize">{pr.author}</span>
+                          <span className="text-[--vc-text-secondary] capitalize">{pr.author_github_username}</span>
                         </div>
                       </td>
                       <td className="py-3 px-4 align-middle">
-                        <RiskBadge score={pr.riskScore} />
+                        <RiskBadge score={pr.risk_score} />
                       </td>
                       <td className="py-3 px-4 align-middle">
                         <StatusBadge status={pr.status} />
                       </td>
                       <td className="py-3 px-4 align-middle">
                         <div className="flex items-center gap-2">
-                          <button className="bg-[--vc-elevated] hover:bg-[--vc-accent] text-[--vc-text-secondary] hover:text-[--vc-text-primary] font-medium text-xs py-1.5 px-3 rounded-md border border-[--vc-border] transition-all duration-200 ease-out focus:outline-2 focus:outline-offset-1 focus:outline-[--vc-accent] hover:scale-[1.03] hover:border-[--vc-accent]">
-                            View Details
-                          </button>
+                          {pr.github_url && (
+                            <a
+                              href={pr.github_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="bg-[--vc-elevated] hover:bg-[--vc-accent] text-[--vc-text-secondary] hover:text-[--vc-text-primary] font-medium text-xs py-1.5 px-3 rounded-md border border-[--vc-border] transition-all duration-200 ease-out focus:outline-2 focus:outline-offset-1 focus:outline-[--vc-accent] hover:scale-[1.03] hover:border-[--vc-accent]"
+                            >
+                              View on GitHub
+                            </a>
+                          )}
                           <button 
                             onClick={() => handleSuggestReviewTasks(pr.id, pr.title)}
                             title="Suggest Review Tasks"
